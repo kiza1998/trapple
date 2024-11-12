@@ -1,15 +1,20 @@
 import React from 'react';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Products from './components/Products';
+import { Navbar } from './components/Navbar';
+import { Hero } from './components/Hero';
+import { Products } from './components/Products';
+import { Footer } from './components/Footer';
+import { ThemeProvider } from './contexts/ThemeContext';
 
-function App() {
+export function App() {
   return (
-    <div className="min-h-screen">
-      <Navbar />
-      <Hero />
-      <Products />
-    </div>
+    <ThemeProvider>
+      <div className="min-h-screen transition-colors duration-300 dark:bg-zinc-800 bg-gray-50">
+        <Navbar />
+        <Hero />
+        <Products />
+        <Footer />
+      </div>
+    </ThemeProvider>
   );
 }
 
