@@ -41,13 +41,13 @@ export function Products() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   return (
-    <section className="py-12 bg-[#AA9FCD]">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-serif text-center mb-8 text-white">
+    <section className="py-8 md:py-12 bg-[#AA9FCD]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-xl md:text-2xl font-serif text-center mb-6 md:mb-8 text-white">
           Хит продаж
         </h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {products.map((product) => (
             <div 
               key={product.id}
@@ -61,14 +61,14 @@ export function Products() {
                 <img
                   src={product.images[0]}
                   alt={product.name}
-                  className="h-56 w-full object-cover object-center"
+                  className="h-48 md:h-56 w-full object-cover object-center"
                 />
               </div>
-              <div className="p-3">
-                <h3 className="text-lg font-medium text-[#AA9FCD]">
+              <div className="p-3 md:p-4">
+                <h3 className="text-base md:text-lg font-medium text-[#AA9FCD]">
                   {product.name}
                 </h3>
-                <p className="mt-1 text-base font-light text-[#AA9FCD]/80">
+                <p className="mt-1 text-sm md:text-base font-light text-[#AA9FCD]/80">
                   {product.price}
                 </p>
               </div>
@@ -79,12 +79,12 @@ export function Products() {
 
       {selectedProduct && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-2xl w-full overflow-hidden">
+          <div className="bg-white rounded-lg w-full max-w-md md:max-w-2xl overflow-hidden">
             <div className="relative">
               <img
                 src={selectedProduct.images[currentImageIndex]}
                 alt={selectedProduct.name}
-                className="w-full h-64 object-cover"
+                className="w-full h-48 md:h-64 object-cover"
               />
               <div className="absolute bottom-4 right-4 flex space-x-2">
                 {selectedProduct.images.map((_, index) => (
@@ -101,20 +101,20 @@ export function Products() {
                 ))}
               </div>
             </div>
-            <div className="p-6">
-              <h3 className="text-2xl font-medium text-gray-900 mb-2">
+            <div className="p-4 md:p-6">
+              <h3 className="text-xl md:text-2xl font-medium text-gray-900 mb-2">
                 {selectedProduct.name}
               </h3>
-              <p className="text-gray-600 mb-4">{selectedProduct.description}</p>
+              <p className="text-sm md:text-base text-gray-600 mb-4">{selectedProduct.description}</p>
               <h4 className="font-medium text-gray-900 mb-2">Состав:</h4>
-              <p className="text-gray-600 mb-4">{selectedProduct.composition}</p>
+              <p className="text-sm md:text-base text-gray-600 mb-4">{selectedProduct.composition}</p>
               <div className="flex justify-between items-center">
-                <span className="text-xl font-medium text-gray-900">
+                <span className="text-lg md:text-xl font-medium text-gray-900">
                   {selectedProduct.price}
                 </span>
                 <button
                   onClick={() => setSelectedProduct(null)}
-                  className="bg-[#AA9FCD] text-white px-6 py-2 rounded-lg hover:bg-[#9A8FBD] transition-colors"
+                  className="bg-[#AA9FCD] text-white px-4 md:px-6 py-2 rounded-lg hover:bg-[#9A8FBD] transition-colors text-sm md:text-base"
                 >
                   Закрыть
                 </button>
@@ -126,5 +126,3 @@ export function Products() {
     </section>
   );
 }
-
-export default Products;
