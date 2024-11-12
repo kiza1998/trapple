@@ -22,12 +22,21 @@
   }
 }
 
+@keyframes sparkle {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
 .animate-fade-in {
   animation: fadeIn 1s ease-out forwards;
 }
 
 .animate-float {
   animation: float 6s ease-in-out infinite;
+}
+
+.animate-sparkle {
+  animation: sparkle 2s ease-in-out infinite;
 }
 
 .animation-delay-300 {
