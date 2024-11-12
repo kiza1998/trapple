@@ -16,7 +16,7 @@ export function Navbar() {
   return (
     <nav className="fixed w-full bg-[#AA9FCD]/90 backdrop-blur-sm z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-4">
             <div className="relative">
               <button
@@ -43,27 +43,15 @@ export function Navbar() {
               )}
             </div>
           </div>
-
-          <div className="flex flex-col items-center">
-            <h1 className="font-['Playfair_Display'] italic text-3xl text-white font-semibold">
-              aveilarusha
-            </h1>
-            <span className="font-['Noto_Sans'] text-sm text-white/90">
-              desserts
-            </span>
-            <span className="font-serif text-xs text-white/80 mt-1">
-              Ваш дилер серотонина
-            </span>
-          </div>
           
           <div className="hidden md:flex items-center space-x-8 text-white">
-            <a href="tel:89129040081" className="hover:text-purple-200 transition-colors">89129040081</a>
+            <a href="tel:+79129040081" className="hover:text-purple-200 transition-colors">+7(912)904-00-81</a>
             <a href="#" className="hover:text-purple-200 transition-colors">О нас</a>
             <a href="#" className="hover:text-purple-200 transition-colors">Контакты</a>
             <a href="#" className="hover:text-purple-200 transition-colors">Отзывы</a>
             <a href="#" className="hover:text-purple-200 transition-colors">Доставка</a>
             <a 
-              href="https://wa.me/89129040091" 
+              href="https://wa.me/79129040081" 
               target="_blank" 
               rel="noopener noreferrer"
               className="hover:text-purple-200 transition-colors"
@@ -89,7 +77,7 @@ export function Navbar() {
       {isOpen && (
         <div className="md:hidden absolute w-full bg-[#AA9FCD]/95 backdrop-blur-sm">
           <div className="px-2 pt-2 pb-3 space-y-1">
-            <a href="tel:89129040081" className="block px-3 py-2 text-white hover:text-purple-200 transition-colors">89129040081</a>
+            <a href="tel:+79129040081" className="block px-3 py-2 text-white hover:text-purple-200 transition-colors">+7(912)904-00-81</a>
             <a href="#" className="block px-3 py-2 text-white hover:text-purple-200 transition-colors">О нас</a>
             <a href="#" className="block px-3 py-2 text-white hover:text-purple-200 transition-colors">Контакты</a>
             <a href="#" className="block px-3 py-2 text-white hover:text-purple-200 transition-colors">Отзывы</a>

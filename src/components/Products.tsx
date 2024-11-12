@@ -41,17 +41,17 @@ export function Products() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   return (
-    <section className="py-24 bg-[#AA9FCD]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-serif text-center mb-16 text-white">
+    <section className="py-12 bg-[#AA9FCD]">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 className="text-2xl font-serif text-center mb-8 text-white">
           Хит продаж
         </h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {products.map((product) => (
             <div 
               key={product.id}
-              className="group relative overflow-hidden cursor-pointer rounded-lg shadow-lg bg-white/10 backdrop-blur-sm"
+              className="group relative overflow-hidden cursor-pointer rounded-lg shadow-lg bg-white transform hover:scale-105 transition-all duration-300"
               onClick={() => {
                 setSelectedProduct(product);
                 setCurrentImageIndex(0);
@@ -61,14 +61,14 @@ export function Products() {
                 <img
                   src={product.images[0]}
                   alt={product.name}
-                  className="h-full w-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
+                  className="h-56 w-full object-cover object-center"
                 />
               </div>
-              <div className="p-6">
-                <h3 className="text-xl font-medium text-white">
+              <div className="p-3">
+                <h3 className="text-lg font-medium text-[#AA9FCD]">
                   {product.name}
                 </h3>
-                <p className="mt-1 text-lg font-light text-white/80">
+                <p className="mt-1 text-base font-light text-[#AA9FCD]/80">
                   {product.price}
                 </p>
               </div>

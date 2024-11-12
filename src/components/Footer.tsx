@@ -3,7 +3,7 @@ import { Phone, Instagram, Send, MessageCircle } from 'lucide-react';
 
 export function Footer() {
   return (
-    <footer className="bg-[#AA9FCD]/80 backdrop-blur-sm text-white py-12">
+    <footer className="bg-[#AA9FCD]/80 backdrop-blur-sm text-white py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
@@ -16,11 +16,11 @@ export function Footer() {
             <h3 className="font-['Raleway'] text-lg mb-4">Контакты</h3>
             <div className="space-y-3">
               <a 
-                href="tel:89129040081" 
+                href="tel:+79129040081" 
                 className="flex items-center space-x-2 hover:text-purple-200 transition-colors"
               >
                 <Phone className="w-4 h-4" />
-                <span>89129040081</span>
+                <span>+7(912)904-00-81</span>
               </a>
               <a 
                 href="https://instagram.com/aveilarusha_desserts" 
@@ -41,7 +41,7 @@ export function Footer() {
                 <span>aveilarusha</span>
               </a>
               <a 
-                href="https://wa.me/89129040091" 
+                href="https://wa.me/79129040081" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="flex items-center space-x-2 hover:text-purple-200 transition-colors"
@@ -55,7 +55,7 @@ export function Footer() {
             <h3 className="font-['Raleway'] text-lg mb-4">Заказ через WhatsApp</h3>
             <p className="text-sm mb-4">Для быстрого оформления заказа напишите нам в WhatsApp</p>
             <a 
-              href="https://wa.me/89129040091" 
+              href="https://wa.me/79129040081" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="inline-block bg-white/20 backdrop-blur-sm px-6 py-2 rounded-lg hover:bg-white/30 transition-all duration-300"
