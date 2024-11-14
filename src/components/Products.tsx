@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, ShoppingCart } from 'lucide-react';
 
 const products = [
   {
@@ -44,6 +44,11 @@ export function Products() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [hoveredId, setHoveredId] = useState(null);
+
+  const handleAddToCart = (e, productId) => {
+    e.stopPropagation();
+    window.open('https://wa.me/79129040081?text=' + encodeURIComponent(`Здравствуйте! Хочу заказать ${products.find(p => p.id === productId).name}`), '_blank');
+  };
 
   return (
     <section className="py-8 md:py-12 bg-gradient-to-br from-[#AA9FCD] via-[#B8A5E3] to-[#AA9FCD]">
@@ -95,6 +100,13 @@ export function Products() {
                 <div className="mt-2 text-sm text-gray-500 line-clamp-2">
                   {product.description}
                 </div>
+                <button
+                  onClick={(e) => handleAddToCart(e, product.id)}
+                  className="mt-4 w-full bg-gradient-to-r from-[#AA9FCD] to-[#B8A5E3] text-white px-4 py-2 rounded-full hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
+                >
+                  <ShoppingCart className="w-4 h-4" />
+                  <span>Добавить в корзину</span>
+                </button>
               </div>
             </div>
           ))}
@@ -141,12 +153,21 @@ export function Products() {
                 <span className="text-2xl font-medium text-[#AA9FCD]">
                   {selectedProduct.price}
                 </span>
-                <button
-                  onClick={() => setSelectedProduct(null)}
-                  className="bg-gradient-to-r from-[#AA9FCD] to-[#B8A5E3] text-white px-6 py-2 rounded-full hover:shadow-lg transition-all duration-300 transform hover:scale-105"
-                >
-                  Закрыть
-                </button>
+                <div className="flex space-x-3">
+                  <button
+                    onClick={(e) => handleAddToCart(e, selectedProduct.id)}
+                    className="bg-gradient-to-r from-[#AA9FCD] to-[#B8A5E3] text-white px-6 py-2 rounded-full hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-2"
+                  >
+                    <ShoppingCart className="w-4 h-4" />
+                    <span>В корзину</span>
+                  </button>
+                  <button
+                    onClick={() => setSelectedProduct(null)}
+                    className="px-6 py-2 border border-[#AA9FCD] text-[#AA9FCD] rounded-full hover:bg-[#AA9FCD]/5 transition-all duration-300"
+                  >
+                    Закрыть
+                  </button>
+                </div>
               </div>
             </div>
           </div>

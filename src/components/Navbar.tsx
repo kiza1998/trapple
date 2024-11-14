@@ -144,10 +144,10 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden fixed inset-0 top-12 bg-white/95 backdrop-blur-sm z-50">
+        <div className="md:hidden fixed inset-0 top-12 bg-white z-50">
           <div className="px-4 pt-2 pb-3 space-y-1">
             <div 
-              className="py-2.5 px-4 flex justify-between items-center border-b border-[#AA9FCD]/10 cursor-pointer"
+              className="py-2.5 px-4 flex justify-between items-center border-b border-[#AA9FCD]/10 cursor-pointer bg-white relative"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               <span className="text-base font-medium text-[#AA9FCD]">Меню</span>
@@ -159,7 +159,7 @@ export function Navbar() {
             </div>
             
             {isMobileMenuOpen && (
-              <div className="pl-4 py-1 space-y-1">
+              <div className="pl-4 py-1 space-y-1 bg-white">
                 {menuCategories.map((category) => (
                   <a
                     key={category.name}
@@ -177,7 +177,7 @@ export function Navbar() {
               <a
                 key={item.name}
                 href={item.href}
-                className="flex items-center space-x-3 py-2.5 px-4 text-[#AA9FCD] hover:text-[#B8A5E3] transition-colors border-b border-[#AA9FCD]/10"
+                className="flex items-center space-x-3 py-2.5 px-4 text-[#AA9FCD] hover:text-[#B8A5E3] transition-colors border-b border-[#AA9FCD]/10 bg-white relative"
                 onClick={() => setIsOpen(false)}
               >
                 <item.icon className="w-4 h-4" />
