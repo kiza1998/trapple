@@ -1,19 +1,21 @@
 import React from 'react';
+import { DecorativeElements } from './DecorativeElements';
 
 export function HeroContent() {
   return (
     <div className="relative h-full flex items-center justify-center text-center py-8 md:py-12">
-      <div className="max-w-xl px-4 sm:px-6 lg:px-8">
+      <DecorativeElements />
+      <div className="max-w-xl px-4 sm:px-6 lg:px-8 relative z-30">
         <div className="flex flex-col items-center justify-center">
           <div className="relative mb-6">
-            <h1 className="text-4xl md:text-8xl font-['Raleway'] text-[#AA9FCD] opacity-0 animate-fade-in tracking-wide font-light text-shadow">
+            <h1 className="text-4xl md:text-8xl font-['Raleway'] text-[#AA9FCD] opacity-0 animate-fade-in tracking-wide font-light drop-shadow-lg backdrop-blur-none">
               aveilarusha
             </h1>
-            <p className="text-xs md:text-base text-[#B8A5E3] opacity-0 animate-fade-in animation-delay-300 font-['Raleway'] tracking-[0.3em] uppercase absolute right-0 -bottom-4 md:-bottom-6">
+            <p className="text-xs md:text-base text-[#B8A5E3] opacity-0 animate-fade-in animation-delay-300 font-['Raleway'] tracking-[0.3em] uppercase absolute right-0 -bottom-4 md:-bottom-6 drop-shadow-lg">
               desserts
             </p>
           </div>
-          <p className="text-base md:text-xl text-[#B8A5E3] mt-8 md:mt-10 opacity-0 animate-fade-in animation-delay-300 font-['Playfair_Display'] italic">
+          <p className="text-base md:text-xl text-[#B8A5E3] mt-8 md:mt-10 opacity-0 animate-fade-in animation-delay-300 font-['Playfair_Display'] italic drop-shadow-lg">
             Тепло севера в каждом кусочке
           </p>
           <div className="mt-8 opacity-0 animate-fade-in animation-delay-600">

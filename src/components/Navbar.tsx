@@ -22,42 +22,15 @@ const desktopNavItems = [
   { name: 'Доставка', href: '#delivery', icon: Truck },
 ];
 
-const DecorativePattern = () => {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-[0.03]">
-      {[...Array(20)].map((_, i) => (
-        <div
-          key={i}
-          className="absolute animate-float"
-          style={{
-            top: `${Math.random() * 100}%`,
-            left: `${Math.random() * 100}%`,
-            transform: `rotate(${Math.random() * 360}deg) scale(${0.5 + Math.random() * 0.5})`,
-            animationDelay: `${i * 0.5}s`,
-          }}
-        >
-          {i % 2 === 0 ? (
-            <Cookie className="w-4 h-4 text-[#AA9FCD]" />
-          ) : (
-            <Cake className="w-4 h-4 text-[#FFD6E8]" />
-          )}
-        </div>
-      ))}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMTUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0FBOUZDRCIgc3Ryb2tlLXdpZHRoPSIxIiBvcGFjaXR5PSIwLjEiLz48L3N2Zz4=')] opacity-5" />
-    </div>
-  );
-};
-
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="fixed w-full bg-white/95 backdrop-blur-sm shadow-lg z-50 border-b border-[#AA9FCD]/10">
+    <nav className="fixed w-full z-50">
       {/* Desktop Navigation */}
-      <div className="hidden md:block relative">
-        <DecorativePattern />
+      <div className="hidden md:block relative bg-transparent backdrop-blur-sm border-b border-[#AA9FCD]/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14">
             <div className="flex items-center space-x-8 flex-1">
@@ -125,8 +98,7 @@ export function Navbar() {
       </div>
 
       {/* Mobile Navigation */}
-      <div className="md:hidden flex items-center justify-between h-12 px-4 relative">
-        <DecorativePattern />
+      <div className="md:hidden flex items-center justify-between h-12 px-4 relative bg-transparent backdrop-blur-sm">
         <a
           href="tel:+79129040081"
           className="text-[#AA9FCD] text-sm font-medium flex items-center space-x-1"

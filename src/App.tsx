@@ -9,14 +9,16 @@ import { BackgroundDecoration } from './components/BackgroundDecoration';
 
 export function App() {
   return (
-    <div className="min-h-screen bg-[#AA9FCD]">
+    <div className="min-h-screen bg-white">
       <BackgroundDecoration />
       <FallingElements />
-      <TopBar />
-      <Navbar />
-      <Hero />
-      <Products />
-      <Footer />
+      <div className="relative z-10 bg-transparent">
+        <TopBar />
+        <Navbar />
+        <Hero />
+        <Products />
+        <Footer />
+      </div>
     </div>
   );
 }

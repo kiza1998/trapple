@@ -13,13 +13,13 @@ const pastryIcons = [
 
 export function FallingElements() {
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden">
+    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
       {[...Array(40)].map((_, index) => {
         const Icon = pastryIcons[Math.floor(Math.random() * pastryIcons.length)];
-        const size = Math.random() * 16 + 16; // Random size between 16px and 32px
-        const left = Math.random() * 100; // Random position across width
-        const delay = Math.random() * 8; // Random delay up to 8s
-        const duration = Math.random() * 5 + 8; // Random duration between 8-13s
+        const size = Math.random() * 16 + 16;
+        const left = Math.random() * 100;
+        const delay = Math.random() * 8;
+        const duration = Math.random() * 5 + 8;
 
         return (
           <div
@@ -37,7 +37,7 @@ export function FallingElements() {
             <Icon
               className="w-full h-full"
               style={{
-                color: index % 2 === 0 ? '#AA9FCD' : '#FFD6E8',
+                color: '#AA9FCD',
                 opacity: 0.15,
                 filter: 'drop-shadow(0 0 3px rgba(170, 159, 205, 0.4))'
               }}
