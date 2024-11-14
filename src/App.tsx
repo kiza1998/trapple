@@ -4,10 +4,12 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Products } from './components/Products';
 import { Footer } from './components/Footer';
+import { FallingElements } from './components/FallingElements';
 
 export function App() {
   return (
     <div className="min-h-screen bg-[#AA9FCD]">
+      <FallingElements />
       <TopBar />
       <Navbar />
       <Hero />

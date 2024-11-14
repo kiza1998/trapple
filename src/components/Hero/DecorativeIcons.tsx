@@ -8,7 +8,6 @@ import {
   Beef, Apple, Banana
 } from 'lucide-react';
 
-// Left side elements (0-50% of width)
 const leftDecorativeElements = [
   { Icon: Utensils, count: 4, label: 'венчик' },
   { Icon: Cake, count: 5, label: 'тортик' },
@@ -22,7 +21,6 @@ const leftDecorativeElements = [
   { Icon: Banana, count: 3, label: 'банан' }
 ];
 
-// Right side elements (original layout)
 const rightDecorativeElements = [
   { Icon: Utensils, count: 2, label: 'венчик' },
   { Icon: Cake, count: 3, label: 'тортик' },
@@ -50,17 +48,21 @@ export function DecorativeIcons() {
   const allIcons = [...leftIcons, ...rightIcons];
 
   return (
-    <div className="absolute inset-0 hidden md:block">
+    <div className="absolute inset-0 hidden md:block pointer-events-none">
       {allIcons.map((item, index) => {
         const { Icon, label, side } = item;
         const scale = 0.6 + Math.random() * 0.4;
         const rotation = Math.random() * 360;
         const top = Math.random() * 100;
-        // Adjust left position based on side
         const left = side === 'left' 
-          ? Math.random() * 45 // 0-45% for left side
-          : 50 + Math.random() * 50; // 50-100% for right side
+          ? Math.random() * 45 
+          : 50 + Math.random() * 50;
         const isSpecialIcon = ['сердце', 'звезда', 'искры'].includes(label);
+        const isPastryIcon = ['тортик', 'кекс', 'пончик', 'кукис', 'конфета', 'мороженое'].includes(label);
+        
+        const baseColor = isPastryIcon 
+          ? index % 2 ? '#FFE6F3' : '#E8D6FF'
+          : index % 2 ? '#FFE6F3' : '#BFB5E0';
         
         return (
           <div
@@ -72,19 +74,20 @@ export function DecorativeIcons() {
               top: `${top}%`,
               left: `${left}%`,
               animationDelay: `${index * 0.15}s`,
-              color: index % 2 ? '#FFD6E8' : '#AA9FCD',
-              opacity: isSpecialIcon ? 0.2 : 0.15,
+              color: baseColor,
+              opacity: isSpecialIcon ? 0.35 : isPastryIcon ? 0.3 : 0.25,
               transform: `rotate(${rotation}deg) scale(${scale})`,
               zIndex: isSpecialIcon ? 1 : 0,
+              filter: isPastryIcon ? 'drop-shadow(0 0 2px currentColor)' : 'none',
             }}
           >
             <Icon 
               className={`w-6 h-6 md:w-8 md:h-8 ${
-                isSpecialIcon ? 'animate-pulse' : 'animate-wiggle'
+                isSpecialIcon ? 'animate-pulse' : isPastryIcon ? 'animate-bounce-slow' : 'animate-wiggle'
               }`}
               style={{ 
                 animationDelay: `${index * 0.25}s`,
-                filter: isSpecialIcon ? 'drop-shadow(0 0 2px currentColor)' : 'none'
+                filter: isSpecialIcon || isPastryIcon ? 'drop-shadow(0 0 3px currentColor)' : 'none'
               }}
             />
           </div>

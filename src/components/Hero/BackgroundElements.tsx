@@ -6,18 +6,18 @@ import {
 } from 'lucide-react';
 
 const backgroundElements = [
-  { Icon: Cookie, frequency: 8, size: '12px', label: 'cookie' },
-  { Icon: Cake, frequency: 6, size: '14px', label: 'cake' },
-  { Icon: IceCream, frequency: 7, size: '13px', label: 'icecream' },
-  { Icon: Candy, frequency: 10, size: '10px', label: 'candy' },
-  { Icon: Cherry, frequency: 8, size: '11px', label: 'cherry' },
-  { Icon: Croissant, frequency: 6, size: '13px', label: 'croissant' },
-  { Icon: Heart, frequency: 12, size: '10px', label: 'heart' },
-  { Icon: Star, frequency: 10, size: '11px', label: 'star' },
-  { Icon: Sparkles, frequency: 8, size: '12px', label: 'sparkles' },
-  { Icon: ChefHat, frequency: 5, size: '14px', label: 'chef-hat' },
-  { Icon: Utensils, frequency: 6, size: '13px', label: 'utensils' },
-  { Icon: Coffee, frequency: 7, size: '12px', label: 'coffee' }
+  { Icon: Cookie, frequency: 8, size: '12px', label: 'cookie', color: '#FFD6E8' },
+  { Icon: Cake, frequency: 6, size: '14px', label: 'cake', color: '#E2C6FF' },
+  { Icon: IceCream, frequency: 7, size: '13px', label: 'icecream', color: '#FFD6E8' },
+  { Icon: Candy, frequency: 10, size: '10px', label: 'candy', color: '#E2C6FF' },
+  { Icon: Cherry, frequency: 8, size: '11px', label: 'cherry', color: '#FFD6E8' },
+  { Icon: Croissant, frequency: 6, size: '13px', label: 'croissant', color: '#E2C6FF' },
+  { Icon: Heart, frequency: 12, size: '10px', label: 'heart', color: '#FFD6E8' },
+  { Icon: Star, frequency: 10, size: '11px', label: 'star', color: '#E2C6FF' },
+  { Icon: Sparkles, frequency: 8, size: '12px', label: 'sparkles', color: '#FFD6E8' },
+  { Icon: ChefHat, frequency: 5, size: '14px', label: 'chef-hat', color: '#E2C6FF' },
+  { Icon: Utensils, frequency: 6, size: '13px', label: 'utensils', color: '#FFD6E8' },
+  { Icon: Coffee, frequency: 7, size: '12px', label: 'coffee', color: '#E2C6FF' }
 ];
 
 export function BackgroundElements() {
@@ -29,11 +29,11 @@ export function BackgroundElements() {
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
         const randomElement = backgroundElements[Math.floor(Math.random() * backgroundElements.length)];
-        const offsetX = (Math.random() - 0.5) * 20; // Random X offset ±10px
-        const offsetY = (Math.random() - 0.5) * 20; // Random Y offset ±10px
-        const rotation = Math.random() * 360; // Random rotation
-        const delay = Math.random() * 5; // Random animation delay
-        const scale = 0.8 + Math.random() * 0.4; // Random scale between 0.8 and 1.2
+        const offsetX = (Math.random() - 0.5) * 20;
+        const offsetY = (Math.random() - 0.5) * 20;
+        const rotation = Math.random() * 360;
+        const delay = Math.random() * 5;
+        const scale = 0.8 + Math.random() * 0.4;
 
         elements.push({
           ...randomElement,
@@ -53,18 +53,19 @@ export function BackgroundElements() {
   const gridElements = React.useMemo(generateGridElements, []);
 
   return (
-    <div className="absolute inset-0 overflow-hidden">
-      {/* Semi-transparent overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/90 via-white/95 to-white/90" />
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Semi-transparent overlay with gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/95 via-white/98 to-white/95" />
 
       {/* Background pattern */}
       {gridElements.map((element) => {
-        const { Icon, id, x, y, rotation, delay, scale, size } = element;
+        const { Icon, id, x, y, rotation, delay, scale, size, color, label } = element;
+        const isPastryItem = ['cake', 'cookie', 'icecream', 'candy', 'croissant'].includes(label);
         
         return (
           <div
             key={id}
-            className="absolute animate-float"
+            className={`absolute ${isPastryItem ? 'animate-bounce-slow' : 'animate-float'}`}
             style={{
               top: `${y}%`,
               left: `${x}%`,
@@ -75,33 +76,35 @@ export function BackgroundElements() {
             }}
           >
             <Icon
-              className="w-full h-full animate-pulse"
+              className={`w-full h-full ${isPastryItem ? 'animate-pulse' : 'animate-float'}`}
               style={{
-                color: Math.random() > 0.5 ? '#FFD6E8' : '#AA9FCD',
-                opacity: 0.1,
+                color: color,
+                opacity: isPastryItem ? 0.15 : 0.1,
                 animationDuration: '3s',
-                animationDelay: `${delay}s`
+                animationDelay: `${delay}s`,
+                filter: isPastryItem ? 'drop-shadow(0 0 1px currentColor)' : 'none'
               }}
             />
           </div>
         );
       })}
 
-      {/* Sparkle effects */}
-      {[...Array(20)].map((_, i) => (
+      {/* Enhanced sparkle effects */}
+      {[...Array(30)].map((_, i) => (
         <div
           key={`sparkle-${i}`}
           className="absolute animate-sparkle"
           style={{
             top: `${Math.random() * 100}%`,
             left: `${Math.random() * 100}%`,
-            width: '3px',
-            height: '3px',
-            background: i % 2 ? '#FFD6E8' : '#AA9FCD',
+            width: i % 3 === 0 ? '4px' : '3px',
+            height: i % 3 === 0 ? '4px' : '3px',
+            background: i % 2 ? '#FFD6E8' : '#E2C6FF',
             borderRadius: '50%',
-            opacity: 0.15,
+            opacity: 0.2,
             animationDelay: `${i * 0.2}s`,
-            filter: 'blur(1px)'
+            filter: 'blur(1px)',
+            boxShadow: `0 0 2px ${i % 2 ? '#FFD6E8' : '#E2C6FF'}`
           }}
         />
       ))}
