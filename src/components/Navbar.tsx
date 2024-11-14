@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Menu, X, ShoppingCart, MessageCircle, Heart, Info, Phone, Truck } from 'lucide-react';
+import { Menu, X, ShoppingCart, MessageCircle, Heart, Info, Phone, Truck, ChevronDown, ChevronUp } from 'lucide-react';
 
 const menuCategories = [
   { name: 'Моти', href: '#mochi' },
   { name: 'Торты', href: '#cakes' },
   { name: 'Трайфлы', href: '#trifles' },
+  { name: 'Фрукты в шоколаде', href: '#chocolate-fruits' },
   { name: 'Шоколадные бомбочки', href: '#chocolate-bombs' },
 ];
 
@@ -24,9 +25,10 @@ const desktopNavItems = [
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="fixed w-full bg-white/95 backdrop-blur-md shadow-lg z-50 border-b-2 border-[#AA9FCD]/20">
+    <nav className="fixed w-full bg-white shadow-lg z-50 border-b-2 border-[#AA9FCD]/20">
       {/* Desktop Navigation */}
       <div className="hidden md:block">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -97,6 +99,13 @@ export function Navbar() {
 
       {/* Mobile Navigation */}
       <div className="md:hidden flex items-center justify-between h-16 px-4">
+        <a
+          href="tel:+79129040081"
+          className="text-[#AA9FCD] text-base font-medium flex items-center space-x-1"
+        >
+          <Phone className="w-4 h-4" />
+          <span>+7(912)904-00-81</span>
+        </a>
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="text-[#AA9FCD] hover:text-[#B8A5E3] transition-all duration-300"
@@ -107,33 +116,46 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden fixed inset-0 top-16 bg-white/95 backdrop-blur-md z-50">
+        <div className="md:hidden fixed inset-0 top-16 bg-white z-50">
           <div className="px-4 pt-2 pb-3 space-y-2">
+            <div 
+              className="py-3 px-4 flex justify-between items-center border-b border-[#AA9FCD]/10 cursor-pointer bg-white"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              <span className="text-lg font-medium text-[#AA9FCD]">Меню</span>
+              {isMobileMenuOpen ? (
+                <ChevronUp className="w-5 h-5 text-[#AA9FCD]" />
+              ) : (
+                <ChevronDown className="w-5 h-5 text-[#AA9FCD]" />
+              )}
+            </div>
+            
+            {isMobileMenuOpen && (
+              <div className="pl-4 py-2 space-y-2 bg-white">
+                {menuCategories.map((category) => (
+                  <a
+                    key={category.name}
+                    href={category.href}
+                    className="block py-2 px-4 text-[#AA9FCD] hover:text-[#B8A5E3] transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {category.name}
+                  </a>
+                ))}
+              </div>
+            )}
+
             {mobileNavItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                className="flex items-center space-x-3 py-3 px-4 text-[#AA9FCD] hover:text-[#B8A5E3] transition-colors border-b border-[#AA9FCD]/10"
+                className="flex items-center space-x-3 py-3 px-4 text-[#AA9FCD] hover:text-[#B8A5E3] transition-colors border-b border-[#AA9FCD]/10 bg-white"
                 onClick={() => setIsOpen(false)}
               >
                 <item.icon className="w-5 h-5" />
                 <span className="text-lg">{item.name}</span>
               </a>
             ))}
-            
-            <div className="pt-4 space-y-3">
-              <p className="text-lg font-medium text-[#AA9FCD] px-4">Категории меню:</p>
-              {menuCategories.map((category) => (
-                <a
-                  key={category.name}
-                  href={category.href}
-                  className="block py-2 px-4 text-[#AA9FCD] hover:text-[#B8A5E3] transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {category.name}
-                </a>
-              ))}
-            </div>
           </div>
         </div>
       )}

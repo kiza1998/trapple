@@ -23,12 +23,12 @@
 }
 
 @keyframes sparkle {
-  0%, 100% { opacity: 0; }
-  50% { opacity: 1; }
+  0%, 100% { opacity: 0.1; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(1.2); }
 }
 
 .animate-fade-in {
-  animation: fadeIn 1s ease-out forwards;
+  animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .animate-float {
