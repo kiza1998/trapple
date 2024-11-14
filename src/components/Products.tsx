@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Sparkles } from 'lucide-react';
 
 const products = [
   {
@@ -10,7 +11,8 @@ const products = [
       "https://images.unsplash.com/photo-1586916916021-a011e9e6aa44?auto=format&fit=crop&q=80"
     ],
     description: "Нежный сливочный крем, прослойка из печенья Орео, шоколадный ганаш",
-    composition: "Сливки, маскарпоне, печенье Орео, темный шоколад, какао"
+    composition: "Сливки, маскарпоне, печенье Орео, темный шоколад, какао",
+    rating: 4.9
   },
   {
     id: 2,
@@ -21,7 +23,8 @@ const products = [
       "https://images.unsplash.com/photo-1582716401524-7ded7080d2d4?auto=format&fit=crop&q=80"
     ],
     description: "Японский десерт с начинкой из зеленого чая",
-    composition: "Рисовая мука, матча, сливки, сахар, кукурузный крахмал"
+    composition: "Рисовая мука, матча, сливки, сахар, кукурузный крахмал",
+    rating: 4.8
   },
   {
     id: 3,
@@ -32,45 +35,66 @@ const products = [
       "https://images.unsplash.com/photo-1606312618685-b196cf5cd09c?auto=format&fit=crop&q=80"
     ],
     description: "Горячий шоколад с сюрпризом внутри",
-    composition: "Бельгийский шоколад, маршмеллоу, какао-порошок"
+    composition: "Бельгийский шоколад, маршмеллоу, какао-порошок",
+    rating: 5.0
   }
 ];
 
 export function Products() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [hoveredId, setHoveredId] = useState(null);
 
   return (
-    <section className="py-8 md:py-12 bg-[#AA9FCD]">
+    <section className="py-8 md:py-12 bg-gradient-to-br from-[#AA9FCD] via-[#B8A5E3] to-[#AA9FCD]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-xl md:text-2xl font-serif text-center mb-6 md:mb-8 text-white">
-          Хит продаж
-        </h2>
+        <div className="text-center mb-8 md:mb-12">
+          <h2 className="text-2xl md:text-3xl font-serif text-white text-shadow relative inline-block">
+            Хит продаж
+            <Sparkles className="absolute -top-4 -right-6 w-6 h-6 text-white/50 animate-sparkle" />
+          </h2>
+        </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {products.map((product) => (
             <div 
               key={product.id}
-              className="group relative overflow-hidden cursor-pointer rounded-lg shadow-lg bg-white transform hover:scale-105 transition-all duration-300"
+              className="group relative overflow-hidden cursor-pointer rounded-2xl shadow-lg bg-white/90 backdrop-blur-sm transform hover:scale-105 transition-all duration-300 hover:shadow-xl"
+              onMouseEnter={() => setHoveredId(product.id)}
+              onMouseLeave={() => setHoveredId(null)}
               onClick={() => {
                 setSelectedProduct(product);
                 setCurrentImageIndex(0);
               }}
             >
-              <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden">
+              <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden relative">
                 <img
                   src={product.images[0]}
                   alt={product.name}
-                  className="h-48 md:h-56 w-full object-cover object-center"
+                  className="h-48 md:h-56 w-full object-cover object-center transform group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <Sparkles 
+                  className={`absolute top-4 right-4 w-6 h-6 ${
+                    hoveredId === product.id ? 'text-white' : 'text-white/50'
+                  } transition-all duration-300 animate-sparkle`}
                 />
               </div>
-              <div className="p-3 md:p-4">
-                <h3 className="text-base md:text-lg font-medium text-[#AA9FCD]">
-                  {product.name}
-                </h3>
-                <p className="mt-1 text-sm md:text-base font-light text-[#AA9FCD]/80">
+              <div className="p-4 md:p-5">
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="text-lg md:text-xl font-medium text-[#AA9FCD]">
+                    {product.name}
+                  </h3>
+                  <div className="flex items-center">
+                    <span className="text-sm text-[#AA9FCD]/70">{product.rating}</span>
+                  </div>
+                </div>
+                <p className="text-base md:text-lg font-medium text-[#AA9FCD]">
                   {product.price}
                 </p>
+                <div className="mt-2 text-sm text-gray-500 line-clamp-2">
+                  {product.description}
+                </div>
               </div>
             </div>
           ))}
@@ -78,8 +102,8 @@ export function Products() {
       </div>
 
       {selectedProduct && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg w-full max-w-md md:max-w-2xl overflow-hidden">
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl w-full max-w-md md:max-w-2xl overflow-hidden shadow-2xl transform transition-all duration-300">
             <div className="relative">
               <img
                 src={selectedProduct.images[currentImageIndex]}
@@ -90,8 +114,8 @@ export function Products() {
                 {selectedProduct.images.map((_, index) => (
                   <button
                     key={index}
-                    className={`w-2 h-2 rounded-full ${
-                      currentImageIndex === index ? 'bg-white' : 'bg-white/50'
+                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                      currentImageIndex === index ? 'bg-white w-4' : 'bg-white/50'
                     }`}
                     onClick={(e) => {
                       e.stopPropagation();
@@ -101,20 +125,25 @@ export function Products() {
                 ))}
               </div>
             </div>
-            <div className="p-4 md:p-6">
-              <h3 className="text-xl md:text-2xl font-medium text-gray-900 mb-2">
-                {selectedProduct.name}
-              </h3>
-              <p className="text-sm md:text-base text-gray-600 mb-4">{selectedProduct.description}</p>
-              <h4 className="font-medium text-gray-900 mb-2">Состав:</h4>
-              <p className="text-sm md:text-base text-gray-600 mb-4">{selectedProduct.composition}</p>
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-2xl font-medium text-[#AA9FCD]">
+                  {selectedProduct.name}
+                </h3>
+                <div className="flex items-center">
+                  <span className="text-lg font-medium text-[#AA9FCD]/70">{selectedProduct.rating}</span>
+                </div>
+              </div>
+              <p className="text-gray-600 mb-4">{selectedProduct.description}</p>
+              <h4 className="font-medium text-[#AA9FCD] mb-2">Состав:</h4>
+              <p className="text-gray-600 mb-6">{selectedProduct.composition}</p>
               <div className="flex justify-between items-center">
-                <span className="text-lg md:text-xl font-medium text-gray-900">
+                <span className="text-2xl font-medium text-[#AA9FCD]">
                   {selectedProduct.price}
                 </span>
                 <button
                   onClick={() => setSelectedProduct(null)}
-                  className="bg-[#AA9FCD] text-white px-4 md:px-6 py-2 rounded-lg hover:bg-[#9A8FBD] transition-colors text-sm md:text-base"
+                  className="bg-gradient-to-r from-[#AA9FCD] to-[#B8A5E3] text-white px-6 py-2 rounded-full hover:shadow-lg transition-all duration-300 transform hover:scale-105"
                 >
                   Закрыть
                 </button>
