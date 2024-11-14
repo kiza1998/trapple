@@ -1,26 +1,20 @@
 import React from 'react';
 import { 
-  Cake, Cookie, IceCream, Croissant, Candy, Coffee, CupSoda, 
-  Sparkles, Utensils, Cherry, ChefHat, Pizza, Apple, 
-  Banana, Egg, Milk, Lemon, Wine, PieChart, Sandwich, 
-  Soup, Dessert, Carrot, Beef, Fish, Drumstick, Cheese,
-  Popcorn, Salad, Wheat
+  Cake, Cookie, Coffee, CupSoda,
+  Sparkles, Utensils, ChefHat
 } from 'lucide-react';
 
-export function Hero() {
-  const decorativeIcons = [
-    Cake, Cookie, IceCream, Croissant, Candy, Coffee, CupSoda,
-    Sparkles, Utensils, Cherry, ChefHat, Pizza, Apple,
-    Banana, Egg, Milk, Lemon, Wine, PieChart, Sandwich,
-    Soup, Dessert, Carrot, Beef, Fish, Drumstick, Cheese,
-    Popcorn, Salad, Wheat
-  ];
+const decorativeIcons = [
+  Cake, Cookie, Coffee, CupSoda,
+  Sparkles, Utensils, ChefHat
+];
 
+export function Hero() {
   return (
     <div className="relative min-h-[60vh] md:min-h-[70vh] bg-gradient-to-br from-pink-50 via-white to-purple-50 overflow-hidden pt-16 md:pt-20">
-      {/* Animated background elements */}
+      {/* Background sparkles */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(30)].map((_, i) => (
+        {[...Array(15)].map((_, i) => (
           <div
             key={i}
             className="absolute animate-sparkle"
@@ -38,7 +32,7 @@ export function Hero() {
         ))}
       </div>
 
-      {/* Floating icons */}
+      {/* Decorative icons */}
       <div className="absolute inset-0 hidden md:block">
         {decorativeIcons.map((Icon, index) => (
           <div
@@ -58,13 +52,14 @@ export function Hero() {
         ))}
       </div>
 
-      {/* Decorative elements */}
+      {/* Gradient blobs */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-20 -right-20 w-40 h-40 bg-gradient-to-br from-[#FFD6E8]/30 to-[#AA9FCD]/30 rounded-full blur-lg animate-float"></div>
         <div className="absolute top-40 -left-10 w-32 h-32 bg-gradient-to-tl from-[#AA9FCD]/30 to-[#FFD6E8]/30 rounded-full blur-lg animate-float" style={{ animationDelay: '1s' }}></div>
         <div className="absolute bottom-20 right-10 w-24 h-24 bg-gradient-to-tr from-[#FFD6E8]/30 to-[#AA9FCD]/30 rounded-full blur-lg animate-float" style={{ animationDelay: '2s' }}></div>
       </div>
       
+      {/* Main content */}
       <div className="relative h-full flex items-center justify-center text-center py-8 md:py-12">
         <div className="max-w-xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-center">
