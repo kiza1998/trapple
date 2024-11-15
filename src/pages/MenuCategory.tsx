@@ -33,25 +33,31 @@ export function MenuCategory() {
       setLoading(true);
       setError(null);
 
+      // Convert URL parameter to proper category name format
+      const formattedCategory = category!.replace(/_/g, ' ');
+
       const { data: categoryData, error: categoryError } = await supabase
         .from('categories')
         .select('id, name')
-        .ilike('name', category!.replace(/_/g, ' '))
-        .single();
+        .ilike('name', formattedCategory)
+        .limit(1);
 
       if (categoryError) throw categoryError;
-      if (categoryData) {
-        setCategoryName(categoryData.name);
+      
+      if (categoryData && categoryData.length > 0) {
+        setCategoryName(categoryData[0].name);
         
         const { data: productsData, error: productsError } = await supabase
           .from('products')
           .select('*')
-          .eq('category_id', categoryData.id)
+          .eq('category_id', categoryData[0].id)
           .eq('is_available', true)
           .order('name');
 
         if (productsError) throw productsError;
         setProducts(productsData || []);
+      } else {
+        setError('Категория не найдена');
       }
     } catch (error) {
       console.error('Error fetching products:', error);
