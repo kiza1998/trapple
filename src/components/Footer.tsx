@@ -1,5 +1,6 @@
 import React from 'react';
 import { Phone, Instagram, Send, MessageCircle, Star } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export function Footer() {
   return (
@@ -61,14 +62,12 @@ export function Footer() {
               <Star className="w-4 h-4 fill-current" />
             </div>
             <p className="text-sm mb-4">Более 1000 довольных клиентов</p>
-            <a 
-              href="https://wa.me/79129040081" 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <Link 
+              to="/reviews"
               className="inline-block bg-white/20 backdrop-blur-sm px-4 md:px-6 py-2 rounded-lg hover:bg-white/30 transition-all duration-300 text-sm md:text-base"
             >
-              Оставить отзыв
-            </a>
+              Читать отзывы
+            </Link>
           </div>
         </div>
         <div className="mt-6 md:mt-8 pt-6 md:pt-8 border-t border-white/20 text-center">

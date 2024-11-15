@@ -11,11 +11,12 @@ import { About } from './pages/About';
 import { Contacts } from './pages/Contacts';
 import { Delivery } from './pages/Delivery';
 import { MenuCategory } from './pages/MenuCategory';
+import { Reviews } from './pages/Reviews';
 import { Cart } from './components/Cart';
 import { CartProvider } from './contexts/CartContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 
-export function App() {
+function App() {
   return (
     <Router>
       <ThemeProvider>
@@ -37,6 +38,7 @@ export function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/contacts" element={<Contacts />} />
                 <Route path="/delivery" element={<Delivery />} />
+                <Route path="/reviews" element={<Reviews />} />
                 <Route path="/menu/:category" element={<MenuCategory />} />
               </Routes>
               <Footer />
