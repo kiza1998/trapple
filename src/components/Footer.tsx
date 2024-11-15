@@ -9,7 +9,7 @@ export function Footer() {
           <div className="md:col-span-2">
             <h3 className="font-['Raleway'] text-base md:text-lg mb-3 md:mb-4">О нас</h3>
             <p className="text-sm leading-relaxed">
-              Добро пожаловать в Aveilarusha Desserts! Мы — домашняя кондитерская, основанная Кизилгюль Ашуралиевой, в которой каждый десерт приготовлен с любовью и вниманием к деталям.
+              Добро пожаловать в aveilarusha desserts! Мы — домашняя кондитерская, основанная Кизилгюль Ашуралиевой, в которой каждый десерт приготовлен с любовью и вниманием к деталям.
             </p>
           </div>
           <div>
@@ -72,7 +72,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-6 md:mt-8 pt-6 md:pt-8 border-t border-white/20 text-center">
-          <p className="text-white/80 text-xs md:text-sm">Каждый десерт — это результат нашего творческого подхода, любви к кондитерскому искусству и стремления приносить радость каждому клиенту. Спасибо, что выбираете Aveilarusha Desserts!</p>
+          <p className="text-white/80 text-xs md:text-sm">Каждый десерт — это результат нашего творческого подхода, любви к кондитерскому искусству и стремления приносить радость каждому клиенту. Спасибо, что выбираете aveilarusha desserts!</p>
         </div>
       </div>
     </footer>
