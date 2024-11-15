@@ -7,6 +7,13 @@ export default {
       fontFamily: {
         serif: ['Playfair Display', 'serif'],
       },
+      colors: {
+        dark: {
+          bg: '#1a1a1a',
+          card: '#2a2a2a',
+          text: '#e5e5e5',
+        },
+      },
     },
   },
   plugins: [],

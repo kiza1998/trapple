@@ -142,13 +142,13 @@ export function MenuCategory() {
   return (
     <div className="pt-24 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl md:text-4xl font-serif text-[#AA9FCD] text-center mb-8">
+        <h1 className="text-3xl md:text-4xl font-serif text-[#AA9FCD] text-center mb-8 dark:text-[#B8A5E3]">
           {categoryTitles[category]}
         </h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {menuItems[category].map((item) => (
-            <div key={item.id} className="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300">
+            <div key={item.id} className="bg-white dark:bg-dark-card rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300">
               <div className="relative aspect-w-16 aspect-h-9">
                 <img
                   src={item.image}
@@ -158,13 +158,13 @@ export function MenuCategory() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
               </div>
               <div className="p-4">
-                <h3 className="text-lg font-medium text-[#AA9FCD]">{item.name}</h3>
-                <p className="mt-2 text-gray-600 text-sm">{item.description}</p>
+                <h3 className="text-lg font-medium text-[#AA9FCD] dark:text-[#B8A5E3]">{item.name}</h3>
+                <p className="mt-2 text-gray-600 dark:text-gray-300 text-sm">{item.description}</p>
                 {item.details && (
-                  <p className="mt-2 text-xs text-gray-500">{item.details}</p>
+                  <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">{item.details}</p>
                 )}
                 <div className="mt-4 flex items-center justify-between">
-                  <span className="text-lg font-medium text-[#AA9FCD]">{item.price}</span>
+                  <span className="text-lg font-medium text-[#AA9FCD] dark:text-[#B8A5E3]">{item.price}</span>
                   <button
                     onClick={() => handleAddToCart(item)}
                     className="flex items-center space-x-2 bg-gradient-to-r from-[#AA9FCD] to-[#B8A5E3] text-white px-4 py-2 rounded-full hover:shadow-lg transition-all duration-300 group"

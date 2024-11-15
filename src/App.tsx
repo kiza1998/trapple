@@ -13,34 +13,37 @@ import { Delivery } from './pages/Delivery';
 import { MenuCategory } from './pages/MenuCategory';
 import { Cart } from './components/Cart';
 import { CartProvider } from './contexts/CartContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 export function App() {
   return (
     <Router>
-      <CartProvider>
-        <div className="min-h-screen bg-white">
-          <BackgroundDecoration />
-          <FallingElements />
-          <div className="relative z-10 bg-transparent">
-            <TopBar />
-            <Navbar />
-            <Cart />
-            <Routes>
-              <Route path="/" element={
-                <>
-                  <Hero />
-                  <Products />
-                </>
-              } />
-              <Route path="/about" element={<About />} />
-              <Route path="/contacts" element={<Contacts />} />
-              <Route path="/delivery" element={<Delivery />} />
-              <Route path="/menu/:category" element={<MenuCategory />} />
-            </Routes>
-            <Footer />
+      <ThemeProvider>
+        <CartProvider>
+          <div className="min-h-screen bg-white dark:bg-dark-bg dark:text-dark-text">
+            <BackgroundDecoration />
+            <FallingElements />
+            <div className="relative z-10 bg-transparent">
+              <TopBar />
+              <Navbar />
+              <Cart />
+              <Routes>
+                <Route path="/" element={
+                  <>
+                    <Hero />
+                    <Products />
+                  </>
+                } />
+                <Route path="/about" element={<About />} />
+                <Route path="/contacts" element={<Contacts />} />
+                <Route path="/delivery" element={<Delivery />} />
+                <Route path="/menu/:category" element={<MenuCategory />} />
+              </Routes>
+              <Footer />
+            </div>
           </div>
-        </div>
-      </CartProvider>
+        </CartProvider>
+      </ThemeProvider>
     </Router>
   );
 }
