@@ -8,21 +8,30 @@ interface Product {
   name: string;
   description: string;
   price: number;
-  category: string;
+  category_id: string;
   image_url: string;
   ingredients: string;
   is_available: boolean;
+  categories: {
+    name: string;
+  };
+}
+
+interface Category {
+  id: string;
+  name: string;
 }
 
 export function AdminProducts() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     price: '',
-    category: '',
+    category_id: '',
     image_url: '',
     ingredients: '',
     is_available: true
@@ -30,13 +39,33 @@ export function AdminProducts() {
 
   useEffect(() => {
     fetchProducts();
+    fetchCategories();
   }, []);
+
+  async function fetchCategories() {
+    try {
+      const { data, error } = await supabase
+        .from('categories')
+        .select('id, name')
+        .order('name');
+
+      if (error) throw error;
+      setCategories(data || []);
+    } catch (error) {
+      toast.error('Ошибка при загрузке категорий');
+    }
+  }
 
   async function fetchProducts() {
     try {
       const { data, error } = await supabase
         .from('products')
-        .select('*')
+        .select(`
+          *,
+          categories (
+            name
+          )
+        `)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -64,7 +93,7 @@ export function AdminProducts() {
         name: '',
         description: '',
         price: '',
-        category: '',
+        category_id: '',
         image_url: '',
         ingredients: '',
         is_available: true
@@ -108,7 +137,6 @@ export function AdminProducts() {
         </button>
       </div>
 
-      {/* Products Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {products.map((product) => (
           <div key={product.id} className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -120,6 +148,9 @@ export function AdminProducts() {
             <div className="p-4">
               <h3 className="text-lg font-medium text-[#AA9FCD]">{product.name}</h3>
               <p className="text-gray-600 text-sm mt-1">{product.description}</p>
+              <p className="text-sm text-gray-500 mt-1">
+                Категория: {product.categories?.name}
+              </p>
               <p className="text-[#AA9FCD] font-medium mt-2">{product.price} ₽</p>
               <div className="flex justify-between items-center mt-4">
                 <span className={`px-2 py-1 rounded-full text-xs ${
@@ -143,7 +174,6 @@ export function AdminProducts() {
         ))}
       </div>
 
-      {/* Add Product Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-md w-full">
@@ -195,16 +225,16 @@ export function AdminProducts() {
                 <label className="block text-sm font-medium text-gray-700">Категория</label>
                 <select
                   required
-                  value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                  value={formData.category_id}
+                  onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#AA9FCD] focus:ring focus:ring-[#AA9FCD]/20"
                 >
                   <option value="">Выберите категорию</option>
-                  <option value="mochi">Моти</option>
-                  <option value="cakes">Торты</option>
-                  <option value="trifles">Трайфлы</option>
-                  <option value="chocolate_fruits">Фрукты в шоколаде</option>
-                  <option value="chocolate_bombs">Шоколадные бомбочки</option>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
                 </select>
               </div>
 

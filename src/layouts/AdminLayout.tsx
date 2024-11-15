@@ -2,13 +2,14 @@ import React from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, Package, ShoppingBag, 
-  Star, Truck, LogOut
+  Star, Truck, LogOut, FolderTree
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import toast from 'react-hot-toast';
 
 const menuItems = [
   { path: '/admin/dashboard', icon: LayoutDashboard, label: 'Панель управления' },
+  { path: '/admin/categories', icon: FolderTree, label: 'Категории' },
   { path: '/admin/products', icon: Package, label: 'Товары' },
   { path: '/admin/orders', icon: ShoppingBag, label: 'Заказы' },
   { path: '/admin/reviews', icon: Star, label: 'Отзывы' },

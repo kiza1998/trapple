@@ -1,10 +1,19 @@
--- Create products table
+-- Create categories table first (moved up)
+CREATE TABLE categories (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR(50) NOT NULL UNIQUE,
+    description TEXT,
+    image_url TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW())
+);
+
+-- Create products table with foreign key to categories
 CREATE TABLE products (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(255) NOT NULL,
     description TEXT,
     price DECIMAL(10,2) NOT NULL,
-    category VARCHAR(50) NOT NULL,
+    category_id UUID REFERENCES categories(id) ON DELETE SET NULL,
     image_url TEXT,
     ingredients TEXT,
     is_available BOOLEAN DEFAULT true,
@@ -12,6 +21,7 @@ CREATE TABLE products (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW())
 );
 
+-- Rest of the schema remains the same...
 -- Create orders table
 CREATE TABLE orders (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -49,15 +59,6 @@ CREATE TABLE reviews (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW())
 );
 
--- Create categories table
-CREATE TABLE categories (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name VARCHAR(50) NOT NULL UNIQUE,
-    description TEXT,
-    image_url TEXT,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW())
-);
-
 -- Create delivery_zones table
 CREATE TABLE delivery_zones (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -69,7 +70,7 @@ CREATE TABLE delivery_zones (
 );
 
 -- Add indexes
-CREATE INDEX idx_products_category ON products(category);
+CREATE INDEX idx_products_category_id ON products(category_id);
 CREATE INDEX idx_orders_status ON orders(status);
 CREATE INDEX idx_orders_customer_phone ON orders(customer_phone);
 CREATE INDEX idx_reviews_rating ON reviews(rating);

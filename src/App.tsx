@@ -22,6 +22,7 @@ import { AdminLayout } from './layouts/AdminLayout';
 import { Login } from './pages/admin/Login';
 import { Dashboard } from './pages/admin/Dashboard';
 import { AdminProducts } from './pages/admin/Products';
+import { AdminCategories } from './pages/admin/Categories';
 import { AdminOrders } from './pages/admin/Orders';
 import { AdminReviews } from './pages/admin/Reviews';
 import { AdminDelivery } from './pages/admin/Delivery';
@@ -38,6 +39,7 @@ function App() {
             <Route path="/admin/login" element={<Login />} />
             <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
               <Route path="dashboard" element={<Dashboard />} />
+              <Route path="categories" element={<AdminCategories />} />
               <Route path="products" element={<AdminProducts />} />
               <Route path="orders" element={<AdminOrders />} />
               <Route path="reviews" element={<AdminReviews />} />
