@@ -9,15 +9,17 @@ const menuItems = {
       id: 1,
       name: "Моти Матча",
       price: "280 ₽",
-      description: "Японский десерт с начинкой из зеленого чая",
-      image: "https://images.unsplash.com/photo-1582716401301-b2407dc7563d?auto=format&fit=crop&q=80"
+      description: "Японский десерт с начинкой из зеленого чая матча. Нежное рисовое тесто скрывает в себе начинку с насыщенным вкусом зеленого чая.",
+      image: "https://images.unsplash.com/photo-1582716401301-b2407dc7563d?auto=format&fit=crop&q=80",
+      details: "Состав: рисовая мука, матча, сливки, сахар, кукурузный крахмал"
     },
     {
       id: 2,
       name: "Моти Манго",
       price: "280 ₽",
-      description: "Сочная начинка из спелого манго",
-      image: "https://images.unsplash.com/photo-1582716401524-7ded7080d2d4?auto=format&fit=crop&q=80"
+      description: "Тропический вкус манго в традиционной японской оболочке. Сочная начинка из спелого манго создает неповторимое сочетание вкусов.",
+      image: "https://images.unsplash.com/photo-1582716401524-7ded7080d2d4?auto=format&fit=crop&q=80",
+      details: "Состав: рисовая мука, пюре манго, сливки, сахар, кукурузный крахмал"
     }
   ],
   cakes: [
@@ -35,33 +37,6 @@ const menuItems = {
       description: "Нежный морковный торт с грецкими орехами",
       image: "https://images.unsplash.com/photo-1621303837174-89787a7d4729?auto=format&fit=crop&q=80"
     }
-  ],
-  trifles: [
-    {
-      id: 5,
-      name: "Трайфл Орео",
-      price: "450 ₽",
-      description: "Слои шоколадного бисквита с кремом и печеньем Орео",
-      image: "https://images.unsplash.com/photo-1586917049334-0f493841870c?auto=format&fit=crop&q=80"
-    }
-  ],
-  chocolate_fruits: [
-    {
-      id: 6,
-      name: "Клубника в шоколаде",
-      price: "150 ₽",
-      description: "Свежая клубника в бельгийском шоколаде",
-      image: "https://images.unsplash.com/photo-1582716401301-b2407dc7563d?auto=format&fit=crop&q=80"
-    }
-  ],
-  chocolate_bombs: [
-    {
-      id: 7,
-      name: "Шоколадная бомбочка",
-      price: "350 ₽",
-      description: "Горячий шоколад с маршмеллоу внутри",
-      image: "https://images.unsplash.com/photo-1606312619070-d48b4c652a52?auto=format&fit=crop&q=80"
-    }
   ]
 };
 
@@ -75,11 +50,16 @@ const categoryTitles = {
 
 export function MenuCategory() {
   const { category } = useParams();
-  const { addItem } = useCart();
+  const { addItem, setIsOpen } = useCart();
 
   if (!category || !menuItems[category]) {
     return <div>Категория не найдена</div>;
   }
+
+  const handleAddToCart = (item) => {
+    addItem(item);
+    setIsOpen(true);
+  };
 
   return (
     <div className="pt-24 pb-12">
@@ -100,11 +80,14 @@ export function MenuCategory() {
               </div>
               <div className="p-4">
                 <h3 className="text-lg font-medium text-[#AA9FCD]">{item.name}</h3>
-                <p className="mt-1 text-gray-600">{item.description}</p>
+                <p className="mt-2 text-gray-600">{item.description}</p>
+                {item.details && (
+                  <p className="mt-2 text-sm text-gray-500">{item.details}</p>
+                )}
                 <div className="mt-4 flex items-center justify-between">
                   <span className="text-lg font-medium text-[#AA9FCD]">{item.price}</span>
                   <button
-                    onClick={() => addItem(item)}
+                    onClick={() => handleAddToCart(item)}
                     className="flex items-center space-x-2 bg-gradient-to-r from-[#AA9FCD] to-[#B8A5E3] text-white px-4 py-2 rounded-full hover:shadow-lg transition-all duration-300"
                   >
                     <ShoppingCart className="w-4 h-4" />

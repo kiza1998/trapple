@@ -1,17 +1,6 @@
 import React, { useRef } from 'react';
 import { Phone, Instagram, Send, MessageCircle, MapPin } from 'lucide-react';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import emailjs from '@emailjs/browser';
-
-const mapContainerStyle = {
-  width: '100%',
-  height: '400px'
-};
-
-const center = {
-  lat: 62.1368,
-  lng: 77.4598
-};
 
 export function Contacts() {
   const formRef = useRef<HTMLFormElement>(null);
@@ -142,15 +131,9 @@ export function Contacts() {
 
         <div className="mt-12">
           <h2 className="text-xl font-medium text-[#AA9FCD] mb-4">Мы на карте</h2>
-          <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY">
-            <GoogleMap
-              mapContainerStyle={mapContainerStyle}
-              center={center}
-              zoom={15}
-            >
-              <Marker position={center} />
-            </GoogleMap>
-          </LoadScript>
+          <div className="w-full h-[400px] bg-gray-100 rounded-lg flex items-center justify-center">
+            <p className="text-gray-500">Карта временно недоступна</p>
+          </div>
         </div>
       </div>
     </div>

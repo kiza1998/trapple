@@ -1,31 +1,34 @@
 import React, { useState } from 'react';
-import { Menu, X, ShoppingCart, MessageCircle, Heart, Info, Phone, Truck, ChevronDown, ChevronUp, Cookie, Cake } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Menu, X, ShoppingCart, MessageCircle, Heart, Info, Home, Truck, ChevronDown, ChevronUp, Cookie, Cake } from 'lucide-react';
+import { useCart } from '../contexts/CartContext';
 
 const menuCategories = [
-  { name: 'Моти', href: '#mochi' },
-  { name: 'Торты', href: '#cakes' },
-  { name: 'Трайфлы', href: '#trifles' },
-  { name: 'Фрукты в шоколаде', href: '#chocolate-fruits' },
-  { name: 'Шоколадные бомбочки', href: '#chocolate-bombs' },
+  { name: 'Моти', href: '/menu/mochi' },
+  { name: 'Торты', href: '/menu/cakes' },
+  { name: 'Трайфлы', href: '/menu/trifles' },
+  { name: 'Фрукты в шоколаде', href: '/menu/chocolate_fruits' },
+  { name: 'Шоколадные бомбочки', href: '/menu/chocolate_bombs' },
 ];
 
 const mobileNavItems = [
-  { name: 'О нас', href: '#about', icon: Info },
-  { name: 'Контакты', href: '#contacts', icon: MessageCircle },
-  { name: 'Доставка', href: '#delivery', icon: Truck },
-  { name: 'Корзина', href: 'https://wa.me/79129040081', icon: ShoppingCart },
+  { name: 'О нас', href: '/about', icon: Info },
+  { name: 'Контакты', href: '/contacts', icon: MessageCircle },
+  { name: 'Доставка', href: '/delivery', icon: Truck },
+  { name: 'Корзина', href: '#', icon: ShoppingCart },
 ];
 
 const desktopNavItems = [
-  { name: 'О нас', href: '#about', icon: Info },
-  { name: 'Контакты', href: '#contacts', icon: MessageCircle },
-  { name: 'Доставка', href: '#delivery', icon: Truck },
+  { name: 'О нас', href: '/about', icon: Info },
+  { name: 'Контакты', href: '/contacts', icon: MessageCircle },
+  { name: 'Доставка', href: '/delivery', icon: Truck },
 ];
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { setIsOpen: setCartOpen } = useCart();
 
   return (
     <nav className="fixed w-full z-50">
@@ -34,17 +37,17 @@ export function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14">
             <div className="flex items-center space-x-8 flex-1">
-              <a
-                href="tel:+79129040081"
+              <Link
+                to="/"
                 className="text-[#AA9FCD] hover:text-[#B8A5E3] transition-all duration-300 group flex items-center space-x-1 text-sm"
               >
-                <Phone className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
-                <span>+7(912)904-00-81</span>
-              </a>
+                <Home className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
+                <span>Главная</span>
+              </Link>
               {desktopNavItems.map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.href}
+                  to={item.href}
                   className="text-[#AA9FCD] hover:text-[#B8A5E3] transition-all duration-300 group flex items-center space-x-1 text-sm"
                 >
                   <item.icon className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
@@ -52,7 +55,7 @@ export function Navbar() {
                     {item.name}
                     <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#FFD6E8] transition-all duration-300 group-hover:w-full"></span>
                   </span>
-                </a>
+                </Link>
               ))}
             </div>
             
@@ -72,26 +75,25 @@ export function Navbar() {
                     onMouseLeave={() => setIsMenuOpen(false)}
                   >
                     {menuCategories.map((category) => (
-                      <a
+                      <Link
                         key={category.name}
-                        href={category.href}
+                        to={category.href}
                         className="block px-4 py-2 text-[#AA9FCD] hover:bg-[#AA9FCD]/5 transition-colors text-sm"
+                        onClick={() => setIsMenuOpen(false)}
                       >
                         {category.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 )}
               </div>
-              <a 
-                href="https://wa.me/79129040081"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button 
+                onClick={() => setCartOpen(true)}
                 className="bg-gradient-to-r from-[#FFD6E8] to-[#E2C6FF] text-white px-3 py-1.5 rounded-full hover:shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-1.5 text-sm"
               >
                 <ShoppingCart className="w-3.5 h-3.5" />
                 <span>Корзина</span>
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -99,13 +101,13 @@ export function Navbar() {
 
       {/* Mobile Navigation */}
       <div className="md:hidden flex items-center justify-between h-12 px-4 relative bg-transparent backdrop-blur-sm">
-        <a
-          href="tel:+79129040081"
+        <Link
+          to="/"
           className="text-[#AA9FCD] text-sm font-medium flex items-center space-x-1"
         >
-          <Phone className="w-3.5 h-3.5" />
-          <span>+7(912)904-00-81</span>
-        </a>
+          <Home className="w-3.5 h-3.5" />
+          <span>Главная</span>
+        </Link>
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="text-[#AA9FCD] hover:text-[#B8A5E3] transition-all duration-300"
@@ -133,28 +135,45 @@ export function Navbar() {
             {isMobileMenuOpen && (
               <div className="pl-4 py-1 space-y-1 bg-white">
                 {menuCategories.map((category) => (
-                  <a
+                  <Link
                     key={category.name}
-                    href={category.href}
+                    to={category.href}
                     className="block py-2 px-4 text-[#AA9FCD] hover:text-[#B8A5E3] transition-colors text-sm"
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => {
+                      setIsOpen(false);
+                      setIsMobileMenuOpen(false);
+                    }}
                   >
                     {category.name}
-                  </a>
+                  </Link>
                 ))}
               </div>
             )}
 
             {mobileNavItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="flex items-center space-x-3 py-2.5 px-4 text-[#AA9FCD] hover:text-[#B8A5E3] transition-colors border-b border-[#AA9FCD]/10 bg-white relative"
-                onClick={() => setIsOpen(false)}
-              >
-                <item.icon className="w-4 h-4" />
-                <span className="text-sm">{item.name}</span>
-              </a>
+              item.name === 'Корзина' ? (
+                <button
+                  key={item.name}
+                  onClick={() => {
+                    setCartOpen(true);
+                    setIsOpen(false);
+                  }}
+                  className="flex items-center space-x-3 py-2.5 px-4 text-[#AA9FCD] hover:text-[#B8A5E3] transition-colors border-b border-[#AA9FCD]/10 bg-white relative w-full text-left"
+                >
+                  <item.icon className="w-4 h-4" />
+                  <span className="text-sm">{item.name}</span>
+                </button>
+              ) : (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className="flex items-center space-x-3 py-2.5 px-4 text-[#AA9FCD] hover:text-[#B8A5E3] transition-colors border-b border-[#AA9FCD]/10 bg-white relative"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <item.icon className="w-4 h-4" />
+                  <span className="text-sm">{item.name}</span>
+                </Link>
+              )
             ))}
           </div>
         </div>
