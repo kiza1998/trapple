@@ -12,9 +12,6 @@ interface Product {
   image_url: string;
   ingredients: string;
   is_available: boolean;
-  categories: {
-    name: string;
-  };
 }
 
 interface Category {
@@ -27,6 +24,7 @@ export function AdminProducts() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -41,6 +39,30 @@ export function AdminProducts() {
     fetchProducts();
     fetchCategories();
   }, []);
+
+  useEffect(() => {
+    if (editingProduct) {
+      setFormData({
+        name: editingProduct.name,
+        description: editingProduct.description || '',
+        price: editingProduct.price.toString(),
+        category_id: editingProduct.category_id,
+        image_url: editingProduct.image_url || '',
+        ingredients: editingProduct.ingredients || '',
+        is_available: editingProduct.is_available
+      });
+    } else {
+      setFormData({
+        name: '',
+        description: '',
+        price: '',
+        category_id: '',
+        image_url: '',
+        ingredients: '',
+        is_available: true
+      });
+    }
+  }, [editingProduct]);
 
   async function fetchCategories() {
     try {
@@ -80,15 +102,30 @@ export function AdminProducts() {
     setLoading(true);
 
     try {
-      const { error } = await supabase.from('products').insert([{
+      const productData = {
         ...formData,
         price: parseFloat(formData.price)
-      }]);
+      };
 
-      if (error) throw error;
+      if (editingProduct) {
+        const { error } = await supabase
+          .from('products')
+          .update(productData)
+          .eq('id', editingProduct.id);
 
-      toast.success('Товар успешно добавлен');
+        if (error) throw error;
+        toast.success('Товар успешно обновлен');
+      } else {
+        const { error } = await supabase
+          .from('products')
+          .insert([productData]);
+
+        if (error) throw error;
+        toast.success('Товар успешно добавлен');
+      }
+
       setIsModalOpen(false);
+      setEditingProduct(null);
       setFormData({
         name: '',
         description: '',
@@ -100,7 +137,10 @@ export function AdminProducts() {
       });
       fetchProducts();
     } catch (error) {
-      toast.error('Ошибка при добавлении товара');
+      toast.error(editingProduct 
+        ? 'Ошибка при обновлении товара' 
+        : 'Ошибка при добавлении товара'
+      );
     } finally {
       setLoading(false);
     }
@@ -124,12 +164,20 @@ export function AdminProducts() {
     }
   }
 
+  function handleEdit(product: Product) {
+    setEditingProduct(product);
+    setIsModalOpen(true);
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-serif text-[#AA9FCD]">Управление товарами</h1>
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setEditingProduct(null);
+            setIsModalOpen(true);
+          }}
           className="flex items-center space-x-2 px-4 py-2 bg-[#AA9FCD] text-white rounded-lg hover:bg-[#B8A5E3] transition-colors"
         >
           <Plus size={20} />
@@ -141,9 +189,12 @@ export function AdminProducts() {
         {products.map((product) => (
           <div key={product.id} className="bg-white rounded-lg shadow-md overflow-hidden">
             <img
-              src={product.image_url}
+              src={product.image_url || 'https://images.unsplash.com/photo-1495147466023-ac5c588e2e94?auto=format&fit=crop&q=80'}
               alt={product.name}
               className="w-full h-48 object-cover"
+              onError={(e) => {
+                e.currentTarget.src = 'https://images.unsplash.com/photo-1495147466023-ac5c588e2e94?auto=format&fit=crop&q=80';
+              }}
             />
             <div className="p-4">
               <h3 className="text-lg font-medium text-[#AA9FCD]">{product.name}</h3>
@@ -162,6 +213,12 @@ export function AdminProducts() {
                 </span>
                 <div className="flex space-x-2">
                   <button
+                    onClick={() => handleEdit(product)}
+                    className="p-2 text-[#AA9FCD] hover:bg-[#AA9FCD]/10 rounded-lg transition-colors"
+                  >
+                    <Pencil size={18} />
+                  </button>
+                  <button
                     onClick={() => handleDelete(product.id)}
                     className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                   >
@@ -178,9 +235,14 @@ export function AdminProducts() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-md w-full">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-medium text-[#AA9FCD]">Добавить товар</h2>
+              <h2 className="text-xl font-medium text-[#AA9FCD]">
+                {editingProduct ? 'Редактировать товар' : 'Добавить товар'}
+              </h2>
               <button
-                onClick={() => setIsModalOpen(false)}
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setEditingProduct(null);
+                }}
                 className="text-gray-500 hover:text-gray-700"
               >
                 <X size={20} />
@@ -272,7 +334,10 @@ export function AdminProducts() {
               <div className="flex justify-end space-x-3">
                 <button
                   type="button"
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    setEditingProduct(null);
+                  }}
                   className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
                 >
                   Отмена
@@ -282,7 +347,7 @@ export function AdminProducts() {
                   disabled={loading}
                   className="px-4 py-2 bg-[#AA9FCD] text-white rounded-md hover:bg-[#B8A5E3] disabled:opacity-50"
                 >
-                  {loading ? 'Добавление...' : 'Добавить'}
+                  {loading ? 'Сохранение...' : editingProduct ? 'Сохранить' : 'Добавить'}
                 </button>
               </div>
             </form>

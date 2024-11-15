@@ -14,6 +14,7 @@ export function AdminCategories() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -23,6 +24,22 @@ export function AdminCategories() {
   useEffect(() => {
     fetchCategories();
   }, []);
+
+  useEffect(() => {
+    if (editingCategory) {
+      setFormData({
+        name: editingCategory.name,
+        description: editingCategory.description || '',
+        image_url: editingCategory.image_url || ''
+      });
+    } else {
+      setFormData({
+        name: '',
+        description: '',
+        image_url: ''
+      });
+    }
+  }, [editingCategory]);
 
   async function fetchCategories() {
     try {
@@ -43,14 +60,25 @@ export function AdminCategories() {
     setLoading(true);
 
     try {
-      const { error } = await supabase
-        .from('categories')
-        .insert([formData]);
+      if (editingCategory) {
+        const { error } = await supabase
+          .from('categories')
+          .update(formData)
+          .eq('id', editingCategory.id);
 
-      if (error) throw error;
+        if (error) throw error;
+        toast.success('Категория успешно обновлена');
+      } else {
+        const { error } = await supabase
+          .from('categories')
+          .insert([formData]);
 
-      toast.success('Категория успешно добавлена');
+        if (error) throw error;
+        toast.success('Категория успешно добавлена');
+      }
+
       setIsModalOpen(false);
+      setEditingCategory(null);
       setFormData({
         name: '',
         description: '',
@@ -58,7 +86,10 @@ export function AdminCategories() {
       });
       fetchCategories();
     } catch (error) {
-      toast.error('Ошибка при добавлении категории');
+      toast.error(editingCategory 
+        ? 'Ошибка при обновлении категории' 
+        : 'Ошибка при добавлении категории'
+      );
     } finally {
       setLoading(false);
     }
@@ -82,12 +113,20 @@ export function AdminCategories() {
     }
   }
 
+  function handleEdit(category: Category) {
+    setEditingCategory(category);
+    setIsModalOpen(true);
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-serif text-[#AA9FCD]">Управление категориями</h1>
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setEditingCategory(null);
+            setIsModalOpen(true);
+          }}
           className="flex items-center space-x-2 px-4 py-2 bg-[#AA9FCD] text-white rounded-lg hover:bg-[#B8A5E3] transition-colors"
         >
           <Plus size={20} />
@@ -108,7 +147,13 @@ export function AdminCategories() {
             <div className="p-4">
               <h3 className="text-lg font-medium text-[#AA9FCD]">{category.name}</h3>
               <p className="text-gray-600 text-sm mt-1">{category.description}</p>
-              <div className="flex justify-end mt-4">
+              <div className="flex justify-end mt-4 space-x-2">
+                <button
+                  onClick={() => handleEdit(category)}
+                  className="p-2 text-[#AA9FCD] hover:bg-[#AA9FCD]/10 rounded-lg transition-colors"
+                >
+                  <Pencil size={18} />
+                </button>
                 <button
                   onClick={() => handleDelete(category.id)}
                   className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
@@ -125,9 +170,14 @@ export function AdminCategories() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-md w-full">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-medium text-[#AA9FCD]">Добавить категорию</h2>
+              <h2 className="text-xl font-medium text-[#AA9FCD]">
+                {editingCategory ? 'Редактировать категорию' : 'Добавить категорию'}
+              </h2>
               <button
-                onClick={() => setIsModalOpen(false)}
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setEditingCategory(null);
+                }}
                 className="text-gray-500 hover:text-gray-700"
               >
                 <X size={20} />
@@ -169,7 +219,10 @@ export function AdminCategories() {
               <div className="flex justify-end space-x-3">
                 <button
                   type="button"
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    setEditingCategory(null);
+                  }}
                   className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
                 >
                   Отмена
@@ -179,7 +232,7 @@ export function AdminCategories() {
                   disabled={loading}
                   className="px-4 py-2 bg-[#AA9FCD] text-white rounded-md hover:bg-[#B8A5E3] disabled:opacity-50"
                 >
-                  {loading ? 'Добавление...' : 'Добавить'}
+                  {loading ? 'Сохранение...' : editingCategory ? 'Сохранить' : 'Добавить'}
                 </button>
               </div>
             </form>
